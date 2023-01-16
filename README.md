@@ -1,21 +1,18 @@
-Compiler Construction
+Course: Compiler Construction
 =
 
-Issues
+
+Part of: 
+> [csklub/course-compiler-construction](https://github.com/csklub/course-compiler-construction)
+
+Primary Course
 -
 
-1. Exception java.lang.UnsatisfiedLinkError when trying to run Nand2Tetris tools on Ubuntu 22.04
+- [Build a Modern Computer from First Principles: Nand to Tetris Part II (project-centered course) | Coursera](https://www.coursera.org/learn/nand2tetris2) - _start by signing up here, choose the **Audit** option. You are also encouraged to pay if you can._
 
-  ```sh
-  ~/Desktop/nand2tetris/tools/HardwareSimulator.sh
+Reference Material
+-
 
-  // Error
-  Exception in thread "main" java.lang.UnsatisfiedLinkError: Can't load library: /usr/lib/jvm/java-11-openjdk-amd64/lib/libawt_xawt.so
-  ```
-  - [Fix: install `openjdk-11-jdk`](https://stackoverflow.com/questions/67391845/exception-java-lang-unsatisfiedlinkerror-when-trying-to-open-allure-reports-in-w)
-
-  ```
-  sudo apt install openjdk-11-jdk
-  ```
-
-  # compiler-construction
+- [Compilers Course @ Edx](https://learning.edx.org/course/course-v1:StanfordOnline+SOE.YCSCS1+3T2020/home)
+- [Book: Crafting Interpreters](https://craftinginterpreters.com/)
+- [Create Your Own Compiler - Caught in the Web (citw.dev)](https://citw.dev/tutorial/create-your-own-compiler?p=1)
