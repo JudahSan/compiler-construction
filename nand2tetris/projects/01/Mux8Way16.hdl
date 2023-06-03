@@ -19,4 +19,18 @@ CHIP Mux8Way16 {
 
     PARTS:
     // Put your code here:
+
+    // First level of multiplexing using Mux4Way16
+    Mux4Way16(a=a, b=b, c=c, d=d, sel=sel[1..2], out=out_abcd);
+    Mux4Way16(a=e, b=f, c=g, d=h, sel=sel[1..2], out=out_efgh);
+
+    // Second level of multiplexing using Mux16
+    Mux16(a=out_abcd, b=out_efgh, sel=sel[0], out=out);
 }
+
+// The first level involves using two Mux4Way16 chips to select between the four input buses 
+// (a, b, c, and d) and the other four input buses (e, f, g, and h) based on sel[1] and sel[2] 
+// select signals. The outputs of the first level are stored in out_abcd and out_efgh.
+
+// The second level uses a Mux16 chip to select between out_abcd and out_efgh based on the 
+// sel[0] select signal, resulting in the final output out.

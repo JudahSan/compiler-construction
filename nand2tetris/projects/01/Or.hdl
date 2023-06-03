@@ -15,4 +15,6 @@ CHIP Or {
 
     PARTS:
     // Put your code here:
+
+    Or(a=a, b=b, out=out)
 }

@@ -15,4 +15,11 @@ CHIP DMux {
 
     PARTS:
     // Put your code here:
+    Not(in=sel, out=sel_not);
+    And(a=in, b=sel_not, out=a);
+    And(a=in, b=sel, out=b);
 }
+
+// The Not chip is used to invert the sel input signal and produce the negated value sel_not.
+// The first And gate connects the input signal in with the negated select signal sel_not to produce output a.
+// The second And gate connects the input signal in with the select signal sel to produce output b.
