@@ -16,13 +16,8 @@ CHIP Mux {
     PARTS:
     // Put your code here:
 
-    Not(in=sel, out=sel_not);
-    And(a=a, b=sel_not, out=out_a);
-    And(a=b, b=sel, out=out_b);
-    Or(a=out_a, b=out_b, out=out);
+    Not(in=sel, out=notsel);
+	And(a=notsel, b=a, out=sela);
+	And(a=sel, b=b, out=selb);
+	Or(a=sela, b=selb, out=out);
 }
-
-// The Not chip is used to invert the sel input signal and produce the negated value sel_not.
-// The first And gate connects the input signal a with the negated select signal sel_not to produce out_a.
-// The second And gate connects the input signal b with the select signal sel to produce out_b.
-// The Or gate combines out_a and out_b to produce the final output out.
