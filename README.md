@@ -37,3 +37,4 @@ Reference Material
 - [Compilers Course @ Edx](https://learning.edx.org/course/course-v1:StanfordOnline+SOE.YCSCS1+3T2020/home)
 - [Book: Crafting Interpreters](https://craftinginterpreters.com/)
 - [Create Your Own Compiler - Caught in the Web (citw.dev)](https://citw.dev/tutorial/create-your-own-compiler?p=1)
+- [Ted talk](https://www.youtube.com/watch?v=iE7YRHxwoDs&ab_channel=TED)
