@@ -11,7 +11,7 @@
  *       h if sel == 111
  */
 
-CHIP Mux8Way16 {
+ CHIP Mux8Way16 {
     IN a[16], b[16], c[16], d[16],
        e[16], f[16], g[16], h[16],
        sel[3];
@@ -21,12 +21,13 @@ CHIP Mux8Way16 {
     // Put your code here:
 
     // First level of multiplexing using Mux4Way16
-    Mux4Way16(a=a, b=b, c=c, d=d, sel=sel[1..2], out=out_abcd);
-    Mux4Way16(a=e, b=f, c=g, d=h, sel=sel[1..2], out=out_efgh);
+    Mux4Way16(a=a[0..3], b=b[0..3], c=c[0..3], d=d[0..3], sel=sel[1..2], out=out_abcd);
+    Mux4Way16(a=e[0..3], b=f[0..3], c=g[0..3], d=h[0..3], sel=sel[1..2], out=out_efgh);
 
     // Second level of multiplexing using Mux16
     Mux16(a=out_abcd, b=out_efgh, sel=sel[0], out=out);
 }
+
 
 // The first level involves using two Mux4Way16 chips to select between the four input buses 
 // (a, b, c, and d) and the other four input buses (e, f, g, and h) based on sel[1] and sel[2] 
