@@ -80,6 +80,9 @@ An adder is a more complex circuit that combines multiple full adders to add mul
 
 - 16-bit adder
 
+- An n-bit adder can be built from n full-adder chips
+- The carry bit is "piped" from right to left
+- The MSB carry bit is ignored
 
 - out = a + b, as 16-bit integers(overflow ignored)
 
@@ -212,6 +215,59 @@ The ALU is a fundamental component of the central processing unit (CPU) in a com
 
  The ALU (Arithmetic Logic Unit) is a crucial component of the Hack computer's CPU. It performs arithmetic and logical operations on 16-bit binary data. Control signals determine the specific operation, such as addition, subtraction, or logical operations. The ALU is extensively used in executing instructions, performing calculations, and updating registers or memory locations. It plays a vital role in the overall functionality of the Hack computer.
 
+```
+CHIP ALU {
+    IN  
+        x[16], y[16],  // 16-bit inputs        
+        zx, // zero the x input?
+        nx, // negate the x input?
+        zy, // zero the y input?
+        ny, // negate the y input?
+        f,  // compute out = x + y (if 1) or x & y (if 0)
+        no; // negate the out output?
+
+    OUT 
+        out[16], // 16-bit output
+        zr, // 1 if (out == 0), 0 otherwise
+        ng; // 1 if (out < 0),  0 otherwise
+
+    PARTS:
+    PARTS:
+    // Put you code here:
+    // if (zx==1) set x = 0
+     Mux16(a=x,b=false,sel=zx,out=zxout);
+ 
+     // if (zy==1) set y = 0
+     Mux16(a=y,b=false,sel=zy,out=zyout); 
+ 
+     // if (nx==1) set x = ~x
+     // if (ny==1) set y = ~y  
+     Not16(in=zxout,out=notx);
+     Not16(in=zyout,out=noty);
+     Mux16(a=zxout,b=notx,sel=nx,out=nxout); 
+     Mux16(a=zyout,b=noty,sel=ny,out=nyout);
+ 
+     // if (f==1)  set out = x + y 
+     // if (f==0)  set out = x & y
+     Add16(a=nxout,b=nyout,out=addout);
+     And16(a=nxout,b=nyout,out=andout);
+     Mux16(a=andout,b=addout,sel=f,out=fout);
+     
+     // if (no==1) set out = ~out
+     // 1 if (out<0),  0 otherwise
+     Not16(in=fout,out=nfout);
+     Mux16(a=fout,b=nfout,sel=no,out=out,out[0..7]=zr1,out[8..15]=zr2,out[15]=ng);
+     
+     // 1 if (out==0), 0 otherwise
+     Or8Way(in=zr1,out=or1);
+     Or8Way(in=zr2,out=or2);
+     Or(a=or1,b=or2,out=or3);
+     Not(in=or3,out=zr);
+}
+```
+
+- Building blocks: Add16, and various chips
+
 
 Von Neumann Architecture
 -
@@ -286,3 +342,48 @@ The Hack ALU is:
   - negate a 16-bit value (bit-wise)
   - compute + or & on two 16-bit values
   
+
+  Optimization
+  =
+
+
+Carry lookahead is a technique used in digital circuits, specifically in adders, to improve their performance by reducing the propagation delay associated with carry generation. In a ripple carry adder, the carry signal must propagate through each stage, causing a delay in the final sum output.
+
+Carry lookahead aims to eliminate this delay by generating the carry signals for each stage in parallel, rather than sequentially. It achieves this by pre-computing intermediate carry signals based on the input bits. The key idea is to express the carry-out of each stage as a function of the input bits, rather than waiting for the carry-in from the previous stage.
+
+To implement carry lookahead, additional logic gates and chips are used. These include AND gates, OR gates, and multiplexers. The input bits are analyzed to generate lookahead signals, which indicate whether a carry should propagate or not. By generating these lookahead signals, the carry generation process can occur concurrently, significantly reducing the overall delay.
+
+The advantage of carry lookahead is that it allows for faster addition of large numbers by eliminating the need to wait for carry propagation. The carry lookahead signals provide immediate information about carry propagation, enabling faster computation of the sum. This technique is particularly beneficial for adding multiple bits in parallel, such as in multi-bit adders or arithmetic logic units (ALUs).
+
+In summary, carry lookahead improves performance by parallelizing the carry generation process, reducing the delay associated with carry propagation. This results in faster addition of numbers and improved overall circuit performance.
+
+
+`Inc16.hdl`
+
+```
+CHIP Inc16 {
+    IN in[16];
+    OUT out[16];
+
+    PARTS:
+    // Generate the carry lookahead signals
+    Or16Way(a=in, out=orOut);
+    Not(in=orOut, out=notOrOut);
+    And(a=notOrOut, b=in, out=andOut);
+
+    // Adder chips with carry lookahead
+    HalfAdder(a=in[0], b=true, sum=s0, carry=carry[0]);
+    FullAdder(a=in[1], b=true, c=carry[0], sum=s1, carry=carry[1]);
+    FullAdder(a=in[2], b=true, c=carry[1], sum=s2, carry=carry[2]);
+    // ...
+    FullAdder(a=in[13], b=true, c=carry[12], sum=s13, carry=carry[13]);
+    FullAdder(a=in[14], b=true, c=carry[13], sum=s14, carry=carry[14]);
+    FullAdder(a=in[15], b=true, c=carry[14], sum=s15, carry=carry[15]);
+
+    // Connect the output bits
+    Or(a=carry, b=andOut, out=carryOut);
+    Mux16(a=carryOut, b=[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false], sel=carryOut, out=carry);
+    Mux16(a=[s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15], b=in, sel=carryOut, out=out);
+}
+
+```
