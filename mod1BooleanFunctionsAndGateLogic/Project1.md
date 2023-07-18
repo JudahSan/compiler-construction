@@ -1,6 +1,18 @@
 PROJECT 1 
 =
 
+Hardware Simulator languages
+
+
+
+* **Verilog** is a hardware description language (HDL) used to model and simulate digital systems. It is a procedural language, which means that it describes the behavior of a circuit in terms of steps. Verilog is widely used in the semiconductor industry for designing digital integrated circuits (ICs) and field-programmable gate arrays (FPGAs).
+* **VHDL** (VHSIC Hardware Description Language) is another popular HDL that is used to describe the structure and behavior of digital systems. VHDL is a more declarative language than Verilog, which means that it describes the behavior of a circuit in terms of its structure and inputs/outputs. VHDL is also widely used in the semiconductor industry for designing digital ICs and FPGAs.
+* **SystemVerilog** is a newer HDL that is based on Verilog. It combines the strengths of Verilog and VHDL, and adds new features such as object-oriented programming and assertions. SystemVerilog is becoming increasingly popular in the semiconductor industry, and is often used for designing complex digital systems.
+* **Bluespec** is a newer HDL that is based on the Haskell programming language. It is designed to be more expressive and concise than Verilog or VHDL, and it can be used to describe both the behavior and structure of digital systems. Bluespec is not as widely used as Verilog or VHDL, but it is gaining popularity in some circles.
+* **Cadence Incisive** is a proprietary HDL that is used by the Cadence Design Systems company. It is a powerful HDL that can be used to describe both the behavior and structure of digital systems. Cadence Incisive is not as widely used as Verilog or VHDL, but it is often used for designing complex digital systems.
+
+These are just a few of the many HDLs that are available. The best HDL for a particular project will depend on the specific requirements of the project.
+
 - Given: `Nand`
 - Goal: Build the following gates:
   - `Not`
@@ -74,6 +86,7 @@ else
 |1|1|1|1|
 
 |sel|out|
+|--|--
 |0|a|
 |1|b|
 
@@ -82,10 +95,10 @@ else
     - Digital design
     - Communications networks
 
-- using mux logic to build a programmable gate <br>
+- Using mux logic to build a programmable gate <br>
 ![mux](img/image.png)
 
-Demulriplexor
+Demultiplexor
 -
 
 ![dum](https://i.stack.imgur.com/n9upM.png)
@@ -118,7 +131,7 @@ CHIP DMux {
 }
 ```
 
-Exmple: Multiplexing/ demultiplexing in communication networks
+Example: Multiplexing/ demultiplexing in communication networks
 -
 
 ![muxDmux](img/muxDmux.png)

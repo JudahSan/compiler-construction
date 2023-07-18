@@ -140,3 +140,66 @@ else out(t)=out(t-1)
 - DFF can store information for one time unit only, while Bit can store it for many cycles.
 
 ![img](images/register1.png)
+
+Memory
+=
+
+- Memory
+  - Main memory: RAM
+  - Secondary memory: disks
+  - Volatile/ non-volatile
+
+- RAM
+  - Data
+  - Instructions
+
+- Perspective
+  - Physical
+  - Logical
+
+
+Register: 
+-
+
+The most basic memory element
+
+Multi-bit register(register)
+-
+
+![reg](images/register16.png)
+
+
+- A `w-bit` register can be created from an array of  1-bit registers
+- Register's state: the value which is currently stored inside the register
+
+ Register: read logic
+  -
+
+  To read the register:
+  
+  ```
+  probe out
+  ```
+
+  Result
+
+  ```
+  out emits the Register's state
+  ```
+
+   Register: write logic
+  -
+
+  To read the register=v:
+  
+  ```
+  set in = v
+  set load = 1
+  ```
+
+  Result
+
+  ```
+  The Register's state becomes v
+  From the next cycle onward, out emits v
+  ```
