@@ -1,5 +1,15 @@
+Array of Bits
+=
+
+- Sometimes we manipulate "together" an array of bits.
+- It is conceptually convenient to think about such a group of bits as a single entity, sometime termed "bus"
+- HDLs will usually provide some convenient notation for handling these buses.
+
+
 Multi-Bit Buses
 =
+
+![img](img/16bitAdd.png)
 
 Example: Addition of two 16-bit integers
 -
@@ -15,7 +25,7 @@ Buses in HDL
 
 ```h
 /*
-* Adds two 16-bot values.
+* Adds two 16-bit values.
 */
 CHIP Add16 {
   IN a[16], b[16];
@@ -92,7 +102,7 @@ Add16(..., out[0..3]=t1, out[4..15]=t2);
 - Some syntatic choices of project HDL
   - Overlaps of sub-buses are allowed on output buses of parts
   - Width of internal pins is deduced automatically
-  - "false" and "true" may be used as buses of any width
+  - `false` and `true` may be used as buses of any width
 
   Question
   -
